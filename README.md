@@ -1,9 +1,12 @@
-#Extjs 4 User Extensions
+##Extjs4-ux
 
-##Ext.data.proxy.Rails.js
+User Extensions for Extjs 4
 
-Rails proxy extends Rest proxy to allow non-rest actions
+*	Ext.data.proxy.Rails.js
+	
+	[README](data/proxy/README.md) - Rails proxy extends Rest proxy to allow non-rest actions
 
-##Ext.data.Actionable.js
 
-Ext.data.Store Mixin to allow Rails proxy actions to be called on store instead of proxy
+*	Ext.data.Actionable.js
+
+	[README](data/README.md) - Ext.data.Store Mixin to allow Rails proxy actions to be called on store instead of proxy
