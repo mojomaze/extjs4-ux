@@ -36,15 +36,15 @@ Ext.data.Store Mixin to allow Rails proxy actions to be called on store instead 
 
 	Ext.define('TestApp.model.Team', {
 		extend: 'Ext.data.Model',
-		
+	
 		fields: [
 			{ name: 'id', type: 'int' }
 			,{name: 'name'}
 		],
-		
+	
 		proxy: {
 			type: 'rails',
-			url: '/widgets',
+			url: '/teams',
 			format: 'json',
 			addActions: {
 				destroy_all: {
@@ -58,7 +58,7 @@ Ext.data.Store Mixin to allow Rails proxy actions to be called on store instead 
 			},
 			reader: {
 				type: 'json',
-				root: 'widget'
+				root: 'team'
 			},
 			writer: {
 				type: 'json',

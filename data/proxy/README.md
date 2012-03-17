@@ -43,7 +43,7 @@ Rails proxy extends Rest proxy to allow non-rest actions
 		],
 		proxy: {
 			type: 'rails',
-			url: '/widgets',
+			url: '/teams',
 			format: 'json',
 			addActions: {
 				destroy_all: {
@@ -57,7 +57,7 @@ Rails proxy extends Rest proxy to allow non-rest actions
 			},
 			reader: {
 				type: 'json',
-				root: 'widget'
+				root: 'team'
 			},
 			writer: {
 				type: 'json',
