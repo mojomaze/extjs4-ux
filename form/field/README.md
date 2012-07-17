@@ -4,8 +4,9 @@ Extjs 4
 
 Ext.form.field.HtmlEditor extension
 
-Adds tab forward / backward selection for bracketed text, e.g. '{example}'
-Cntrl-u removes the brackets from the text
+Adds tab forward and (shift tab) backward selection for bracketed text, e.g. '{example}'
+
+Ctrl-u removes brackets from selected text
 
 ## Example
 	var formPanel = Ext.widget('panel', {
