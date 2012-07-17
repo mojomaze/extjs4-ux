@@ -8,8 +8,6 @@ Adds tab forward / backward selection for bracketed text, e.g. '{example}'
 Cntrl-u removes the brackets from the text
 
 ## Example
-###Collection
-	
 	var formPanel = Ext.widget('panel', {
 		renderTo: Ext.get('form'),
 		title: 'Selection Editor',
