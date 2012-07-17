@@ -20,4 +20,4 @@ Cntrl-u removes the brackets from the text
 			height: 500,
 			width: 500
 		}]
-});
+	});
