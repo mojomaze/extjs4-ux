@@ -8,7 +8,7 @@
  *   POST /teams/delete_all.json (collection)
  *   POST /teams/1/send_note.json (member)
  */
-Ext.define('TestApp.ux.data.proxy.Rails', {
+Ext.define('Ext.ux.data.proxy.Rails', {
 	extend: 'Ext.data.proxy.Rest',
 	alias : 'proxy.rails',
 
