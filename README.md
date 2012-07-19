@@ -4,7 +4,6 @@ User Extensions for Extjs 4
 	
 	Rails proxy extends Rest proxy to allow non-rest actions
 
-
 *	[Ext.ux.data.Actionable.js](extjs4-ux/tree/master/data)
 
 	Ext.data.Store Mixin to allow Rails proxy actions to be called on store instead of proxy
@@ -12,3 +11,7 @@ User Extensions for Extjs 4
 *	[Ext.ux.form.field.SelectionEditor.js](extjs4-ux/tree/master/form/field)
 
 	Ext.form.field.HtmlEditor extension that selects bracketed text, e.g. {example}
+	
+*	[FrameworkFixes.js](extjs4-ux/tree/master/FrameworkFixes)
+
+	Framework overrides for unresolved issues in Extjs 4
