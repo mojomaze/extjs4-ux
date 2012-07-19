@@ -16,188 +16,183 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 	},
 	
 	// hook into parent function to handle note key commands
-  applyCommand : function(e){
-			var me = this;
-				
-			// tab search for {}
-			if (e.getKey() == e.TAB) {
-				if (e.shiftKey) { 
-					me.findInDom('<');
-				} else {
-					me.findInDom();
-				}
-				me.win.focus();
-        me.deferFocus();
-        e.preventDefault();
-			}
+	applyCommand : function(e){
+		var me = this;
 			
-			// ctrl u removes {}
-			if (e.ctrlKey) {
-          var me = this,
-              c = e.getCharCode();
-          if (c > 0) {
-              c = String.fromCharCode(c);
-              if (c == 'u') {
-                  me.stripContainer();
-									me.win.focus();
-					        me.deferFocus();
-					        e.preventDefault();
-									return; // prevent parent call for underline
-              }
-          }
-      }
-			me.callParent(arguments);
-  },
+		// tab search for {}
+		if (e.getKey() == e.TAB) {
+			if (e.shiftKey) { 
+				me.findInDom('<');
+			} else {
+				me.findInDom();
+			}
+			me.win.focus();
+			me.deferFocus();
+			e.preventDefault();
+		}
 
-	
+		// ctrl u removes {}
+		if (e.ctrlKey) {
+			var me = this,
+			c = e.getCharCode();
+			if (c > 0) {
+				c = String.fromCharCode(c);
+				if (c == 'u') {
+					me.stripContainer();
+					me.win.focus();
+					me.deferFocus();
+					e.preventDefault();
+					return; // prevent parent call for underline
+				}
+			}
+		}
+		me.callParent(arguments);
+	},
+
 	// override fix keys so we can trap tabs
 	// private
-  fixKeys: function() { // load time branching for fastest keydown performance
-      if (Ext.isIE) {
-          return function(e){
-              var me = this,
-                  k = e.getKey(),
-                  doc = me.getDoc(),
-                  range, target;
-              if (k === e.TAB) {
-									e.stopEvent();
-									if (e.shiftKey) { 
-										me.selectContainer('{', '}', '<');
-									} else {
-										me.selectContainer('{', '}');
-									}
-									me.deferFocus();
-              }
-              else if (k === e.ENTER) {
-                  range = doc.selection.createRange();
-                  if (range) {
-                      target = range.parentElement();
-                      if(!target || target.tagName.toLowerCase() !== 'li'){
-                          e.stopEvent();
-                          range.pasteHTML('<br />');
-                          range.collapse(false);
-                          range.select();
-                      }
-                  }
-              }
-							// cntrl u removes {}
-							else if (k === 85){
-								if (e.ctrlKey) {
-									e.stopEvent();
-                 	me.stripContainer();
-				        	me.deferFocus();
-								}
-							}
-          };
-      }
-
-      if (Ext.isOpera) {
-          return function(e){
-          	var me = this,
-							k = e.getKey();
-            if (k === e.TAB) {
-            	e.stopEvent();
-							if (e.shiftKey) { 
-								me.findInDom('<');
-							} else {
-								me.findInDom();
-							}
-							me.deferFocus();
+	fixKeys: function() { // load time branching for fastest keydown performance
+		if (Ext.isIE) {
+			return function(e) {
+				var me = this,
+					k = e.getKey(),
+					doc = me.getDoc(),
+					range, target;
+				if (k === e.TAB) {
+					e.stopEvent();
+					if (e.shiftKey) {
+						me.selectContainer('{', '}', '<');
+					} else {
+						me.selectContainer('{', '}');
+					}
+					me.deferFocus();
+				} else if (k === e.ENTER) {
+					range = doc.selection.createRange();
+					if (range) {
+						target = range.parentElement();
+						if (!target || target.tagName.toLowerCase() !== 'li') {
+							e.stopEvent();
+							range.pasteHTML('<br />');
+							range.collapse(false);
+							range.select();
 						}
-						// cntrl u removes {}
-						else if (k === 85){
-							if (e.ctrlKey) {
-								e.stopEvent();
-             		me.stripContainer();
-			        	me.deferFocus();
-							}
-						}
-          };
-      }
+					}
+				}
+				// cntrl u removes {}
+				else if (k === 85) {
+					if (e.ctrlKey) {
+						e.stopEvent();
+						me.stripContainer();
+						me.deferFocus();
+					}
+				}
+			};
+		}
 
-      if (Ext.isWebKit) {
-          return function(e){
-              var me = this,
-              	k = e.getKey();
-							// tab search for {}
-              if (k === e.TAB) {
-								e.stopEvent();
-								if (e.shiftKey) { 
-									me.findInDom('<');
-								} else {
-									me.findInDom();
-								}
-								me.deferFocus();
-              }
-              else if (k === e.ENTER) {
-                  e.stopEvent();
-                  me.execCmd('InsertHtml','<br /><br />');
-                  me.deferFocus();
-              }
-							// cntrl u removes {}
-							else if (k === 85){
-								if (e.ctrlKey) {
-									e.stopEvent();
-                 	me.stripContainer();
-				        	me.deferFocus();
-								}
-							}
-          };
-      }
+		if (Ext.isOpera) {
+			return function(e) {
+				var me = this,
+					k = e.getKey();
+				if (k === e.TAB) {
+					e.stopEvent();
+					if (e.shiftKey) {
+						me.findInDom('<');
+					} else {
+						me.findInDom();
+					}
+					me.deferFocus();
+				}
+				// cntrl u removes {}
+				else if (k === 85) {
+					if (e.ctrlKey) {
+						e.stopEvent();
+						me.stripContainer();
+						me.deferFocus();
+					}
+				}
+			};
+		}
 
-      return null; // not needed, so null
-  }(),
+		if (Ext.isWebKit) {
+			return function(e) {
+				var me = this,
+					k = e.getKey();
+				// tab search for {}
+				if (k === e.TAB) {
+					e.stopEvent();
+					if (e.shiftKey) {
+						me.findInDom('<');
+					} else {
+						me.findInDom();
+					}
+					me.deferFocus();
+				} else if (k === e.ENTER) {
+					e.stopEvent();
+					me.execCmd('InsertHtml', '<br /><br />');
+					me.deferFocus();
+				}
+				// cntrl u removes {}
+				else if (k === 85) {
+					if (e.ctrlKey) {
+						e.stopEvent();
+						me.stripContainer();
+						me.deferFocus();
+					}
+				}
+			};
+		}
+
+		return null; // not needed, so null
+	}(),
 
 	getSelectionRange: function() {
 		var me = this,
-	    doc = me.getDoc(), 
-			win = me.getWin(), sel;
-			
-	    if (win.getSelection) {
-	        sel = win.getSelection();
-	        if (sel.rangeCount) {
-	            return sel.getRangeAt(0);
-	        }
-	    } else if (doc.selection) {
-	        return doc.selection.createRange();
-	    }
-	    return null;
+		doc = me.getDoc(), 
+		win = me.getWin(), sel;
+		if (win.getSelection) {
+			sel = win.getSelection();
+			if (sel.rangeCount) {
+				return sel.getRangeAt(0);
+			}
+		} else if (doc.selection) {
+			return doc.selection.createRange();
+		}
+		return null;
 	},
-	
+
 	findString: function(str, direction) {
 		var me = this,
 			strFound = false, 
 			win = me.getWin(),
 			doc = me.getDoc(),
 			range;
-		
+			
 		// defualt to forward
 		var direction = direction || '>';
-			
+		
 		if (win.find) {
 			if (direction == '>') {
 				
-	  		strFound=win.find(str);
-		  	if (!strFound) {
+				strFound=win.find(str);
+				if (!strFound) {
 					// not found forward so find backward up to first occurance
 					strFound = win.find(str,0,1);
 					while (win.find(str,0,1)) {
 						 continue;
 					}
-		  	}
+				}
 			} else {
 				
 				strFound=win.find(str,0,1);
-		  	if (!strFound) {
+				if (!strFound) {
 					// not found backward so find forward up to first occurance
 					strFound = win.find(str);
 					while (win.find(str)) {
 						 continue;
 					}
-		  	}
+				}
 			}
-	
-	 	} else if (Ext.isIE) {
+		} else if (Ext.isIE) {
 			// get current selection range
 			range = doc.selection.createRange();
 			if (direction == '>') {
@@ -206,13 +201,13 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 				} else {
 					range = doc.body.createTextRange();
 				}
-	   		strFound = range.findText(str);
+				strFound = range.findText(str);
 				if (!strFound) {
 					// find from start of doc
 					range = doc.body.createTextRange();
 					strFound = range.findText(str);
 				}
-	   		if (strFound) {
+				if (strFound) {
 					range.select();
 				}
 			} else {
@@ -221,13 +216,13 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 				} else {
 					range = doc.body.createTextRange();
 				}
-	   		strFound = range.findText(str, -1); // backward
+				strFound = range.findText(str, -1); // backward
 				if (!strFound) {
 					// find from end of doc
 					range = doc.body.createTextRange();
 					strFound = range.findText(str, -1);
 				}
-	   		if (strFound) {
+				if (strFound) {
 					range.select();
 				}
 			}
@@ -259,7 +254,7 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 				startRange = doc.selection.createRange();
 			}
 			// always find 2nd container string forward
-		 	strFound = me.findString(str2);
+			strFound = me.findString(str2);
 			
 			if (strFound) {
 				if (!Ext.isIE) {
@@ -285,15 +280,15 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 					startRange.select();
 				}
 				task = { // wait until selection is ready
-            run: function() {
-							Ext.TaskManager.stop(task);
-            	me.handleDisplay();
-            },
-            interval : 10,
-            duration:10000,
-            scope: me
-        };
-        Ext.TaskManager.start(task);
+					run: function() {
+						Ext.TaskManager.stop(task);
+						me.handleDisplay();
+					},
+					interval : 10,
+					duration:10000,
+					scope: me
+				};
+				Ext.TaskManager.start(task);
 			}
 		}
 	},
@@ -301,11 +296,10 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 	findInDom: function(direction) {
 		var me = this,
 			found = false,
-			range, node,
-			direction = direction || '>';
-			
+			range, node, direction = direction || '>';
+
 		var regex = /\{[^\{^\}]*\}/gi;
-		
+
 		// search current node if one is selected
 		range = me.getSelectionRange();
 		if (range) {
@@ -314,43 +308,43 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 				node = range.startContainer;
 			}
 		}
-		
+
 		// not found so crawl dom and search textNodes
 		if (!found) {
 			found = me.findInTextNode(node, regex, direction);
 		}
-		
+
 		// not found so wrap the search from top or bottom
 		if (!found) {
 			node = me.getDoc().body;
 			found = me.findInTextNode(node, regex, direction);
 		}
-		
+
 		// handle the display if necessary
 		if (found) {
 			task = { // wait until selection is ready
-          run: function() {
-						Ext.TaskManager.stop(task);
-          	me.handleDisplay();
-          },
-          interval : 10,
-          duration:10000,
-          scope: me
-      };
-      Ext.TaskManager.start(task);
+				run: function() {
+					Ext.TaskManager.stop(task);
+					me.handleDisplay();
+				},
+				interval: 10,
+				duration: 10000,
+				scope: me
+			};
+			Ext.TaskManager.start(task);
 		}
 	},
-	
+
 	findInTextNode: function(node, regex, direction) {
 		var me = this,
 			found = false;
-		
+
 		while (!found && node) {
 			if (direction == '>') {
 				node = me.nextTextNodeDown(node);
 				if (node) {
 					found = me.findInNode(node, regex, direction);
-				} 
+				}
 
 			} else {
 				node = me.nextTextNodeUp(node);
@@ -361,26 +355,26 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		}
 		return found;
 	},
-	
+
 	nextTextNodeDown: function(node) {
 		var me = this;
 		if (!node) {
 			return null;
 		}
-		
+
 		if (node.firstChild) {
 			if (node.firstChild.nodeType == 3) {
 				return node.firstChild;
 			}
 			return me.nextTextNodeDown(node.firstChild);
-	
+
 		} else {
 			if (node.nextSibling) {
 				if (node.nextSibling.nodeType == 3) {
 					return node.nextSibling;
 				}
 				return me.nextTextNodeDown(node.nextSibling);
-				
+
 			} else {
 				var parent = node.parentNode;
 				if (parent.nextSibling) {
@@ -406,20 +400,20 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		}
 		return null;
 	},
-	
+
 	nextTextNodeUp: function(node) {
 		var me = this;
 		if (!node) {
 			return null;
 		}
-		
+
 		if (node.lastChild) {
 			if (node.lastChild.nodeType == 3) {
 				return node.lastChild;
 			}
 			return me.nextTextNodeUp(node.lastChild);
 		} else {
-		
+
 			if (node.previousSibling) {
 				if (node.previousSibling.nodeType == 3) {
 					return node.previousSibling;
@@ -438,9 +432,9 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 				} else {
 					// no previous sibling so climb back until there is one
 					var node = parent.parentNode;
-						if (node.nodeName == "BODY") {
-							return null;
-						}
+					if (node.nodeName == "BODY") {
+						return null;
+					}
 					var found = false;
 					while (node && !found) {
 						if (node.previousSibling) {
@@ -460,26 +454,25 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		}
 		return null;
 	},
-	
+
 	selectInNode: function(node, start, end) {
 		var me = this,
 			win = me.getWin(),
 			doc = me.getDoc();
-			
+
 		range = doc.createRange();
-		range.setStart(node,start);
-		range.setEnd(node,end);
+		range.setStart(node, start);
+		range.setEnd(node, end);
 		// remove current range
 		sel = win.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range);
 	},
-	
+
 	findInNode: function(node, regex, direction) {
 		var me = this,
-		 	strFound,
-			result, searchText;
-	
+			strFound, result, searchText;
+
 		searchText = node.textContent;
 
 		result = searchText.match(regex);
@@ -488,8 +481,8 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 			if (direction == '>') {
 				strFound = result[0]; // use first item found
 				startOffset = searchText.indexOf(strFound);
-			} else { 
-				strFound = result[result.length-1]; // use the last item found
+			} else {
+				strFound = result[result.length - 1]; // use the last item found
 				startOffset = searchText.lastIndexOf(strFound);
 			}
 			endOffset = startOffset + strFound.length;
@@ -499,12 +492,11 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		}
 		return false;
 	},
-	
+
 	findInRange: function(range, regex, direction) {
 		var me = this,
-			range, searchStart, searchEnd, strFound,
-			result, searchText;
-			
+			range, searchStart, searchEnd, strFound, result, searchText;
+
 		if (direction == '>') {
 			searchStart = range.endOffset;
 			searchEnd = 0;
@@ -515,9 +507,9 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 			searchStart = 0;
 			searchEnd = range.startOffset;
 		}
-		
+
 		node = range.startContainer;
-	
+
 		searchText = node.textContent;
 
 		if (searchStart > 0 && searchEnd == 0) {
@@ -531,9 +523,9 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		if (result) {
 			if (direction == '>') {
 				strFound = result[0]; // use first item found
-				startOffset = searchText.indexOf(strFound)+searchStart;
-			} else { 
-				strFound = result[result.length-1]; // use the last item found
+				startOffset = searchText.indexOf(strFound) + searchStart;
+			} else {
+				strFound = result[result.length - 1]; // use the last item found
 				startOffset = searchText.lastIndexOf(strFound);
 			}
 			endOffset = startOffset + strFound.length;
@@ -543,33 +535,31 @@ Ext.define('Ext.ux.form.field.SelectionEditor', {
 		}
 		return false;
 	},
-	
+
 	handleDisplay: function() {
 		var me = this,
-			range, 
-			selText = '';
-			
+			range, selText = '';
+
 		range = me.getSelectionRange();
 		if (!Ext.isIE) {
 			selText = range.toString();
 		} else {
 			selText = range.text;
 		}
-		if (selText.indexOf('{d:') > -1 ) {
+		if (selText.indexOf('{d:') > -1) {
 			alert('display window opens');
 		}
 	},
-	
+
 	stripContainer: function() {
 		var me = this,
-			selection, 
-			selText = '',
+			selection, selText = '',
 			stripText = '',
 			range = '',
 			doc = me.getDoc();
-		
+
 		range = me.getSelectionRange();
-		
+
 		if (!Ext.isIE) {
 			selText = range.toString();
 		} else {
